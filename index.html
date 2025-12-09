@@ -347,9 +347,15 @@
             };
 
             useEffect(() => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const code = urlParams.get('code');
-                if (code && CONFIG.API_BASE_URL) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    const connected = urlParams.get('connected');
+    if (connected === 'true') {
+        setIsConnected(true);
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return;
+    }
+    if (code && CONFIG.API_BASE_URL) {
                     setIsLoading(true);
                     fetch(CONFIG.API_BASE_URL + "/api/quickbooks/callback?code=" + code)
                         .then(res => res.json())
